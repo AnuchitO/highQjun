@@ -1,7 +1,7 @@
 package ticket
 
 type Order struct {
-	Age int `json:"age"`
+	Age uint `json:"age"`
 }
 
 func Price(o Order) float64 {
