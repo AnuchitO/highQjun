@@ -13,6 +13,11 @@ input: a string of binary digits
   - "11", "1001", "11010", "10001101000"
 
 output: the decimal equivalent of the binary digits or an error
+
+"11" -> 3
+"1001" -> 9
+"11010" -> 26
+"10001101000" -> 1128
 */
 func ParseBinary(bin string) (int, error) {
 	dec := 0
