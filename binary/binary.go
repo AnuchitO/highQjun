@@ -6,6 +6,8 @@ import (
 	"strconv"
 )
 
+var ErrInvalidDigit = errors.New("invalid digit")
+
 /*
 	ParseBinary
 

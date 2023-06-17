@@ -2,20 +2,46 @@ package binary
 
 import "testing"
 
+var tests = []struct {
+	name  string
+	input string
+	want  int
+}{
+	{"#01", "1", 1},
+	{"#10", "10", 2},
+	{"#11", "11", 3},
+	{"#100", "100", 4},
+	{"#1001", "1001", 9},
+	{"#11010", "11010", 26},
+	{"#10001101000", "10001101000", 1128},
+}
+
 func TestParseBinary(t *testing.T) {
-	t.Run("should return 1 when input 01", func(t *testing.T) {
-		r, _ := ParseBinary("01")
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// Act
+			got, _ := ParseBinary(tt.input)
 
-		if r != 1 {
-			t.Errorf("ParseBinary(\"01\") failed: expected %d, got %d", 1, r)
-		}
-	})
+			// Assert
+			if got != tt.want {
+				t.Errorf("want %d,but got %d", tt.want, got)
+			}
+		})
+	}
+}
 
-	t.Run("should return 2 when input 10", func(t *testing.T) {
-		r, _ := ParseBinary("10")
+func TestParseBinaryError(t *testing.T) {
+	_, err := ParseBinary("abc")
 
-		if r != 2 {
-			t.Errorf("ParseBinary(\"10\") failed: expected %d, got %d", 1, r)
-		}
-	})
+	if err.Error() != "\"a\" is not a vaid digit" {
+		t.Errorf("want %s,but got %s", "\"a\" is not a vaid digit", err.Error())
+	}
+}
+
+func TestParseBinaryErrorNotBinary(t *testing.T) {
+	_, err := ParseBinary("3")
+
+	if err.Error() != "\"3\" is not a binary digit" {
+		t.Errorf("want %s,but got %s", "\"a\" is not a vaid digit", err.Error())
+	}
 }
