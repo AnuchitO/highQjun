@@ -24,18 +24,19 @@ func (m *mockDB) Exec(query string, args ...interface{}) (sql.Result, error) {
 }
 
 func TestExecQuery(t *testing.T) {
-	mock := &mockDB{
-		rowsAffected: 32,
-	}
+	t.Run("should return last insert id", func(t *testing.T) {
+		mock := &mockDB{
+			rowsAffected: 32,
+		}
 
-	r, _ := execQuery(mock, "SELECT * FROM sql")
+		r, _ := execQuery(mock, "SELECT * FROM sql")
 
-	if mock.query != "SELECT * FROM sql" {
-		t.Error("should have been call db.Exec with query but it not.")
-	}
+		if mock.query != "SELECT * FROM sql" {
+			t.Error("should have been call db.Exec with query but it not.")
+		}
 
-	if r != 32 {
-		t.Errorf("should return row effect %d but it got %d.", 32, r)
-	}
-
+		if r != 332 {
+			t.Errorf("should return row effect %d but it got %d.", 32, r)
+		}
+	})
 }

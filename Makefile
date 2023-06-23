@@ -7,3 +7,6 @@ test:
 
 bench:
 	go test -v -bench ./...
+
+run:
+	go run main.go
