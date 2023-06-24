@@ -10,6 +10,21 @@ import (
 	"github.com/anuchito/dbstore/pb"
 )
 
+func setupFile(t *testing.T) (*os.File, func()) {
+	t.Parallel()
+
+	f, err := ioutil.TempFile("", "database")
+	if err != nil {
+		t.Fatal(err)
+	}
+	teardown := func() {
+		f.Close()
+		os.Remove(f.Name())
+	}
+
+	return f, teardown
+}
+
 func setup(t *testing.T) (string, func()) {
 	t.Parallel()
 	const testdb = "db.test.bin"

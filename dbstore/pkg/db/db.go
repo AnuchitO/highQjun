@@ -26,7 +26,7 @@ func NewDb(filename string) *DB {
 	}
 
 	offsetMap := make(map[string]int64)
-	db := &DB{filename: filename, f: f, offsetMap: offsetMap}
+	db := &DB{filename: f.Name(), f: f, offsetMap: offsetMap}
 	return db
 }
 
