@@ -2,7 +2,7 @@ package fizzbuzz
 
 import "fmt"
 
-func FizzBuzz(n int) string {
+func F(n int) string {
 	if n%15 == 0 && n%3 == 0 {
 		return "FizzBuzz"
 	}

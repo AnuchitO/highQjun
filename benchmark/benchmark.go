@@ -3,12 +3,14 @@ package benchmark
 import "strings"
 
 func Cat(xs []string) string {
-	s := xs[0]
+	var b strings.Builder
+	b.Grow(len(xs) * 8)
+	b.WriteString(xs[0])
 	for _, v := range xs[1:] {
-		s += " "
-		s += v
+		b.WriteString(" ")
+		b.WriteString(v)
 	}
-	return s
+	return b.String()
 }
 
 func Join(xs []string) string {

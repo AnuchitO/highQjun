@@ -19,7 +19,7 @@ func TestFizzBuzz(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		if got := FizzBuzz(test.input); got != test.want {
+		if got := F(test.input); got != test.want {
 			t.Errorf("FizzBuzz(%d) = %q, want %q", test.input, got, test.want)
 		}
 	}
