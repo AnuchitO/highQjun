@@ -1,24 +1,19 @@
 package db
 
 import (
-	"io/ioutil"
-	"os"
+	"io"
 	"reflect"
 	"testing"
 
 	"github.com/anuchito/dbstore/pb"
+	"github.com/mattetti/filebuffer"
 )
 
-func setup(t *testing.T) (*os.File, func()) {
+func setup(t *testing.T) (io.ReadWriteSeeker, func()) {
 	t.Parallel()
-
-	f, err := ioutil.TempFile("", "database")
-	if err != nil {
-		t.Fatal(err)
-	}
+	f := filebuffer.New(nil)
 	teardown := func() {
 		f.Close()
-		os.Remove(f.Name())
 	}
 
 	return f, teardown

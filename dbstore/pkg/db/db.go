@@ -6,21 +6,19 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"os"
 
 	"github.com/anuchito/dbstore/pb"
 	"github.com/golang/protobuf/proto"
 )
 
-func New(f *os.File) *DB {
+func New(f io.ReadWriteSeeker) *DB {
 	offsetMap := make(map[string]int64)
-	db := &DB{filename: f.Name(), f: f, offsetMap: offsetMap}
+	db := &DB{f: f, offsetMap: offsetMap}
 	return db
 }
 
 // DB type
 type DB struct {
-	filename  string
 	f         io.ReadWriteSeeker
 	offsetMap map[string]int64
 }
