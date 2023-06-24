@@ -8,6 +8,8 @@ type State struct {
 	change    []int
 }
 
+var ErrNoChange = errors.New("could not make change")
+
 func Change(coins []int, target int) (result []int, err error) {
 	queue := []State{{remaining: target, coins: coins, change: []int{}}}
 	var state State
@@ -32,7 +34,14 @@ func Change(coins []int, target int) (result []int, err error) {
 		}
 	}
 	if len(result) == 0 && target != 0 {
-		err = errors.New("could not make change")
+		err = ErrNoChange
+	}
+	return
+}
+
+func Sum(coins []int) (result int) {
+	for _, coin := range coins {
+		result += coin
 	}
 	return
 }
