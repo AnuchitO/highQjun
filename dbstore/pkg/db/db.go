@@ -18,18 +18,6 @@ func New(f *os.File) *DB {
 	return db
 }
 
-// NewDb return a new intialized Db
-func NewDb(filename string) *DB {
-	f, err := os.OpenFile(filename, os.O_CREATE|os.O_RDWR, 0644)
-	if err != nil {
-		log.Fatalf("error file opening for write")
-	}
-
-	offsetMap := make(map[string]int64)
-	db := &DB{filename: f.Name(), f: f, offsetMap: offsetMap}
-	return db
-}
-
 // DB type
 type DB struct {
 	filename  string
