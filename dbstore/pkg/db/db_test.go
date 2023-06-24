@@ -1,7 +1,9 @@
 package db
 
 import (
+	"io/ioutil"
 	"os"
+	"path/filepath"
 	"reflect"
 	"testing"
 
@@ -33,10 +35,21 @@ func teardown(filename string) {
 	}
 }
 
-func TestSingleGet(t *testing.T) {
+func setup(t *testing.T) (string, func()) {
 	t.Parallel()
-	before(testdb)
-	defer teardown(testdb)
+	const testdb = "db.test.bin"
+	dir, err := ioutil.TempDir("", "database")
+	if err != nil {
+		t.Fatal(err)
+	}
+	filename := filepath.Join(dir, testdb)
+	teardown := func() { os.RemoveAll(dir) }
+	return filename, teardown
+}
+
+func TestSingleGet(t *testing.T) {
+	testdb, teardown := setup(t)
+	defer teardown()
 	db := NewDb(testdb)
 	key := "foo-key"
 	value := "foo-value"
@@ -55,9 +68,8 @@ func TestSingleGet(t *testing.T) {
 }
 
 func TestMultipleGet(t *testing.T) {
-	t.Parallel()
-	before(testdb)
-	defer teardown(testdb)
+	testdb, teardown := setup(t)
+	defer teardown()
 	db := NewDb(testdb)
 	key := "foo-key"
 	value := "foo-value"
@@ -87,10 +99,9 @@ func TestMultipleGet(t *testing.T) {
 }
 
 func TestSingleDelete(t *testing.T) {
-	t.Parallel()
 	// prepare
-	before(testdb)
-	defer teardown(testdb)
+	testdb, teardown := setup(t)
+	defer teardown()
 	db := NewDb(testdb)
 	key := "foo-key"
 	value := "foo-value"
@@ -107,10 +118,9 @@ func TestSingleDelete(t *testing.T) {
 }
 
 func TestSingleRecover(t *testing.T) {
-	t.Parallel()
 	// prepare
-	before(testdb)
-	defer teardown(testdb)
+	testdb, teardown := setup(t)
+	defer teardown()
 	db := NewDb(testdb)
 	key := "foo-key"
 	value := "foo-value"
@@ -139,10 +149,9 @@ func TestSingleRecover(t *testing.T) {
 }
 
 func TestSingleRecoverWithDelete(t *testing.T) {
-	t.Parallel()
 	// prepare
-	before(testdb)
-	defer teardown(testdb)
+	testdb, teardown := setup(t)
+	defer teardown()
 	db := NewDb(testdb)
 	key := "foo-key"
 	value := "foo-value"
@@ -172,9 +181,8 @@ func TestSingleRecoverWithDelete(t *testing.T) {
 }
 
 func TestMultipleRecover(t *testing.T) {
-	t.Parallel()
-	before(testdb)
-	defer teardown(testdb)
+	testdb, teardown := setup(t)
+	defer teardown()
 	db := NewDb(testdb)
 
 	// first item
