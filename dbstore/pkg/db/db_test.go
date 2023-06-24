@@ -38,9 +38,9 @@ func setup(t *testing.T) (string, func()) {
 }
 
 func TestSingleGet(t *testing.T) {
-	testdb, teardown := setup(t)
+	f, teardown := setupFile(t)
 	defer teardown()
-	db := NewDb(testdb)
+	db := New(f)
 	key := "foo-key"
 	value := "foo-value"
 	entity := &pb.Entity{Tombstone: false, Key: key, Value: []byte(value)}
@@ -58,9 +58,9 @@ func TestSingleGet(t *testing.T) {
 }
 
 func TestMultipleGet(t *testing.T) {
-	testdb, teardown := setup(t)
+	f, teardown := setupFile(t)
 	defer teardown()
-	db := NewDb(testdb)
+	db := New(f)
 	key := "foo-key"
 	value := "foo-value"
 	entity := &pb.Entity{Tombstone: false, Key: key, Value: []byte(value)}
@@ -90,9 +90,9 @@ func TestMultipleGet(t *testing.T) {
 
 func TestSingleDelete(t *testing.T) {
 	// prepare
-	testdb, teardown := setup(t)
+	f, teardown := setupFile(t)
 	defer teardown()
-	db := NewDb(testdb)
+	db := New(f)
 	key := "foo-key"
 	value := "foo-value"
 	entity := &pb.Entity{Tombstone: false, Key: key, Value: []byte(value)}
@@ -109,9 +109,9 @@ func TestSingleDelete(t *testing.T) {
 
 func TestSingleRecover(t *testing.T) {
 	// prepare
-	testdb, teardown := setup(t)
+	f, teardown := setupFile(t)
 	defer teardown()
-	db := NewDb(testdb)
+	db := New(f)
 	key := "foo-key"
 	value := "foo-value"
 	entity := &pb.Entity{Tombstone: false, Key: key, Value: []byte(value)}
@@ -140,9 +140,9 @@ func TestSingleRecover(t *testing.T) {
 
 func TestSingleRecoverWithDelete(t *testing.T) {
 	// prepare
-	testdb, teardown := setup(t)
+	f, teardown := setupFile(t)
 	defer teardown()
-	db := NewDb(testdb)
+	db := New(f)
 	key := "foo-key"
 	value := "foo-value"
 	entity := &pb.Entity{Tombstone: false, Key: key, Value: []byte(value)}
@@ -171,9 +171,9 @@ func TestSingleRecoverWithDelete(t *testing.T) {
 }
 
 func TestMultipleRecover(t *testing.T) {
-	testdb, teardown := setup(t)
+	f, teardown := setupFile(t)
 	defer teardown()
-	db := NewDb(testdb)
+	db := New(f)
 
 	// first item
 	key := "foo-key"
