@@ -21,6 +21,7 @@ func main() {
 	// graceful shutdown
 	signals := make(chan os.Signal, 1)
 	signal.Notify(signals, os.Interrupt, syscall.SIGTERM)
+
 	srv := &http.Server{
 		Addr:    ":" + config.Port,
 		Handler: handler,

@@ -16,7 +16,7 @@ build:
 	-o ${NAME} "${PROJECT}/cmd/server"
 
 test:
-	go test ./...
+	go test -v -race -count=1 ./...
 
 run: build
 	PORT=8080 DB_FILENAME=${DB_FILE} ./app
