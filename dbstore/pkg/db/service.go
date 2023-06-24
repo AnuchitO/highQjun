@@ -24,7 +24,7 @@ type SetRequest struct {
 }
 
 // NewService creates a new db-service based on the given db reference
-func NewService(db *DB) *Service {
+func NewService(db Storage) *Service {
 	c := make(chan *SetRequest)
 	service := &Service{db: db, SetRequestChannel: c}
 
